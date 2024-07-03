@@ -1,0 +1,439 @@
+-- phpMyAdmin SQL Dump
+-- version 4.6.5.2
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: 28-Maio-2021 às 13:58
+-- Versão do servidor: 10.1.21-MariaDB
+-- PHP Version: 5.6.30
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `hospital`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `banco_sangue`
+--
+
+CREATE TABLE `banco_sangue` (
+  `Id` int(11) NOT NULL,
+  `tipo` varchar(100) NOT NULL,
+  `quantidade` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `consultas`
+--
+
+CREATE TABLE `consultas` (
+  `Id` int(11) NOT NULL,
+  `nome` varchar(100) NOT NULL,
+  `data` date NOT NULL,
+  `genero` varchar(30) NOT NULL,
+  `sintomas` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `consultas`
+--
+
+INSERT INTO `consultas` (`Id`, `nome`, `data`, `genero`, `sintomas`) VALUES
+(1, 'Tiago Manuel', '1999-04-13', 'Masculino', 'Sente muita febre'),
+(2, 'Jorge Matondo', '2002-03-31', 'Masculino', 'sente muita dor de cabeÃ§a');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `doente`
+--
+
+CREATE TABLE `doente` (
+  `ordem` int(11) NOT NULL,
+  `nome` varchar(100) NOT NULL,
+  `date` date NOT NULL,
+  `genero` varchar(20) NOT NULL,
+  `doenca` varchar(100) NOT NULL,
+  `descricao` mediumtext NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `doente`
+--
+
+INSERT INTO `doente` (`ordem`, `nome`, `date`, `genero`, `doenca`, `descricao`) VALUES
+(1, 'Maria JosÃ©', '2021-04-07', 'Masculino', 'Diabete', 'Sente-mal'),
+(2, 'Carla Muco', '2021-04-21', 'Masculino', 'Anemia', ''),
+(3, 'Antonia Tchivela', '2021-04-07', 'Femenino', 'Febre-TifoÃ­de', ''),
+(4, 'Pedro Pedro', '2021-04-12', 'Masculino', 'HIV/Sida', ''),
+(5, 'Adriano', '2021-04-13', 'Masculino', 'Tuberculose', 'IA');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `entrada_sangue`
+--
+
+CREATE TABLE `entrada_sangue` (
+  `Id` int(11) NOT NULL,
+  `tipo` varchar(100) NOT NULL,
+  `quantidade` int(11) NOT NULL,
+  `total` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `espera`
+--
+
+CREATE TABLE `espera` (
+  `ordem` int(11) NOT NULL,
+  `nome` varchar(150) NOT NULL,
+  `date` date NOT NULL,
+  `genero` varchar(20) NOT NULL,
+  `doenca` varchar(10000) NOT NULL,
+  `descricao` longtext NOT NULL,
+  `alta_D` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `espera`
+--
+
+INSERT INTO `espera` (`ordem`, `nome`, `date`, `genero`, `doenca`, `descricao`, `alta_D`) VALUES
+(5, 'Maria JosÃ©', '2021-04-07', 'Masculino', 'Diabete', 'Sente-mal', '0000-00-00 00:00:00'),
+(6, 'Manuela Marcolino', '2021-04-14', 'Femenino', 'Malaria', '', '2027-04-21 07:48:14'),
+(7, 'Adriano', '2021-04-13', 'Masculino', 'Tuberculose', 'IA', '0000-00-00 00:00:00'),
+(8, 'Admari', '2021-04-14', 'Masculino', 'Malaria', '', '2027-04-21 09:59:42'),
+(9, 'Joel', '2021-03-30', 'Masculino', 'Malaria', '', '2029-04-21 20:32:26');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `historico_visitas`
+--
+
+CREATE TABLE `historico_visitas` (
+  `Id` int(11) NOT NULL,
+  `nome` varchar(100) NOT NULL,
+  `visitado` varchar(100) NOT NULL,
+  `hora_entrada` time NOT NULL,
+  `hora_saida` time NOT NULL,
+  `motivo` varchar(100) NOT NULL,
+  `data` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `historico_visitas`
+--
+
+INSERT INTO `historico_visitas` (`Id`, `nome`, `visitado`, `hora_entrada`, `hora_saida`, `motivo`, `data`) VALUES
+(1, 'JoÃ£o Pedro', 'Manuel Marques', '00:48:29', '00:49:17', 'Trouce alimento', '2021-04-27'),
+(2, 'Antonio Tonge', 'Andre Pedro', '00:48:54', '00:49:18', 'Trouce alimento', '2021-04-27'),
+(3, 'Carlos CessongÃ³', 'Manuel Marques', '07:49:13', '07:49:18', 'Trouce alimento', '2021-04-27');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `internados`
+--
+
+CREATE TABLE `internados` (
+  `ordem` int(11) NOT NULL,
+  `nome` varchar(150) NOT NULL,
+  `data_nasci` date NOT NULL,
+  `genero` varchar(30) NOT NULL,
+  `quarto` int(11) NOT NULL,
+  `cama` int(11) NOT NULL,
+  `entrada` datetime NOT NULL,
+  `doenca` varchar(150) NOT NULL,
+  `descrisao` longtext NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `internados`
+--
+
+INSERT INTO `internados` (`ordem`, `nome`, `data_nasci`, `genero`, `quarto`, `cama`, `entrada`, `doenca`, `descrisao`) VALUES
+(11, 'Carlos Mulo', '2021-04-01', 'Masculino', 1, 3, '2027-04-21 01:19:35', 'Covid-19', 'Sente muita febre e dor nos musculos');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `nados_mortos`
+--
+
+CREATE TABLE `nados_mortos` (
+  `ordem` int(11) NOT NULL,
+  `nome` varchar(100) NOT NULL,
+  `genero` varchar(20) NOT NULL,
+  `data_nasci` date NOT NULL,
+  `data_morte` datetime NOT NULL,
+  `doenca` varchar(150) NOT NULL,
+  `categoria` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `nados_mortos`
+--
+
+INSERT INTO `nados_mortos` (`ordem`, `nome`, `genero`, `data_nasci`, `data_morte`, `doenca`, `categoria`) VALUES
+(1, 'Tiago Manuel', 'Masculino', '2021-04-16', '2027-04-21 07:47:48', 'Malaria', ''),
+(2, 'Tina Antonio', 'Femenino', '2021-04-15', '2027-04-21 09:59:51', 'Malaria', ''),
+(3, 'Antonio Pedro', 'Masculino', '2021-04-17', '2029-04-21 20:32:32', 'Covid-19', '');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `nascidos`
+--
+
+CREATE TABLE `nascidos` (
+  `ordem` int(11) NOT NULL,
+  `nome` varchar(100) NOT NULL,
+  `genero` varchar(20) NOT NULL,
+  `data_nasci` date NOT NULL,
+  `hora_nasci` time NOT NULL,
+  `deficiencia` varchar(150) NOT NULL,
+  `parto` varchar(2000) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `paciente`
+--
+
+CREATE TABLE `paciente` (
+  `ordem` int(11) NOT NULL,
+  `nome` varchar(100) NOT NULL,
+  `data` date NOT NULL,
+  `genero` varchar(20) NOT NULL,
+  `analise` varchar(50) NOT NULL,
+  `descrisao` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `saida_sangue`
+--
+
+CREATE TABLE `saida_sangue` (
+  `Id` int(11) NOT NULL,
+  `tipo` varchar(100) NOT NULL,
+  `quantidade` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `user`
+--
+
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(100) NOT NULL,
+  `telefone` int(20) NOT NULL,
+  `senha` varchar(100) NOT NULL,
+  `data` date NOT NULL,
+  `morada` varchar(100) NOT NULL,
+  `genero` varchar(20) NOT NULL,
+  `funcao` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `user`
+--
+
+INSERT INTO `user` (`id`, `nome`, `telefone`, `senha`, `data`, `morada`, `genero`, `funcao`) VALUES
+(1, 'recepÃ§Ã£o', 999000000, '123', '2021-04-19', 'Kassange', 'Masculino', 'Atendimento'),
+(2, 'Consultorio', 945340130, '123', '2021-04-26', 'Kassange', 'Masculino', 'ConsultÃ³rio'),
+(3, 'internandos', 1223234, '123', '2021-04-26', 'Kassange', 'Masculino', 'Internados'),
+(4, 'Banco', 324567687, '123', '2021-04-10', 'Kassange', 'Masculino', 'Banco de sangue'),
+(5, 'Estatistica', 92342312, '123', '2021-04-06', 'Kassange', 'Masculino', 'Estatistica'),
+(6, 'Laboratorio', 23433434, '123', '2021-04-15', 'Kassange', 'Masculino', 'Laboratorio'),
+(7, 'Laboratorio', 39423, '123', '2021-04-16', 'Kassange', 'Masculino', 'Atendimento');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `visitas`
+--
+
+CREATE TABLE `visitas` (
+  `Id` int(11) NOT NULL,
+  `nome` varchar(100) NOT NULL,
+  `visitado` varchar(100) NOT NULL,
+  `data` datetime NOT NULL,
+  `hora` time NOT NULL,
+  `motivo` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `banco_sangue`
+--
+ALTER TABLE `banco_sangue`
+  ADD PRIMARY KEY (`Id`);
+
+--
+-- Indexes for table `consultas`
+--
+ALTER TABLE `consultas`
+  ADD PRIMARY KEY (`Id`);
+
+--
+-- Indexes for table `doente`
+--
+ALTER TABLE `doente`
+  ADD PRIMARY KEY (`ordem`);
+
+--
+-- Indexes for table `entrada_sangue`
+--
+ALTER TABLE `entrada_sangue`
+  ADD PRIMARY KEY (`Id`);
+
+--
+-- Indexes for table `espera`
+--
+ALTER TABLE `espera`
+  ADD PRIMARY KEY (`ordem`);
+
+--
+-- Indexes for table `historico_visitas`
+--
+ALTER TABLE `historico_visitas`
+  ADD PRIMARY KEY (`Id`);
+
+--
+-- Indexes for table `internados`
+--
+ALTER TABLE `internados`
+  ADD PRIMARY KEY (`ordem`);
+
+--
+-- Indexes for table `nados_mortos`
+--
+ALTER TABLE `nados_mortos`
+  ADD PRIMARY KEY (`ordem`);
+
+--
+-- Indexes for table `nascidos`
+--
+ALTER TABLE `nascidos`
+  ADD PRIMARY KEY (`ordem`);
+
+--
+-- Indexes for table `paciente`
+--
+ALTER TABLE `paciente`
+  ADD PRIMARY KEY (`ordem`);
+
+--
+-- Indexes for table `saida_sangue`
+--
+ALTER TABLE `saida_sangue`
+  ADD PRIMARY KEY (`Id`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `visitas`
+--
+ALTER TABLE `visitas`
+  ADD PRIMARY KEY (`Id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `banco_sangue`
+--
+ALTER TABLE `banco_sangue`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `consultas`
+--
+ALTER TABLE `consultas`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `doente`
+--
+ALTER TABLE `doente`
+  MODIFY `ordem` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `entrada_sangue`
+--
+ALTER TABLE `entrada_sangue`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `espera`
+--
+ALTER TABLE `espera`
+  MODIFY `ordem` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT for table `historico_visitas`
+--
+ALTER TABLE `historico_visitas`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `internados`
+--
+ALTER TABLE `internados`
+  MODIFY `ordem` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+--
+-- AUTO_INCREMENT for table `nados_mortos`
+--
+ALTER TABLE `nados_mortos`
+  MODIFY `ordem` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `nascidos`
+--
+ALTER TABLE `nascidos`
+  MODIFY `ordem` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `paciente`
+--
+ALTER TABLE `paciente`
+  MODIFY `ordem` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `saida_sangue`
+--
+ALTER TABLE `saida_sangue`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT for table `visitas`
+--
+ALTER TABLE `visitas`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
